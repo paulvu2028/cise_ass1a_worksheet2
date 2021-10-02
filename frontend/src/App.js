@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       count: 0,
-    }
+    };
   }
 
-  makeIncrementer = amount => () =>
-    this.setState(prevState => ({
+  makeIncrementer = (amount) => () =>
+    this.setState((prevState) => ({
       count: prevState.count + amount,
     }));
 
@@ -19,9 +19,12 @@ class App extends Component {
     return (
       <div>
         <p>Count: {this.state.count}</p>
-        <button className="increment" onClick={this.increment}>Increment count</button>
+        <button className="increment" onClick={this.increment}>
+          Increment count
+        </button>
+        <p>this is git test</p>
       </div>
-    )
+    );
   }
 }
 
