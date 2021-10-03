@@ -16,10 +16,11 @@ const app = express(); // main thing
 
 app.use(express.json()); // to accept json data
 
+//connects route api's
 app.use("/api/notes", noteRoutes);
 app.use("/api/users", userRoutes);
 
-// --------------------------deployment------------------------------
+// -------------------------Heroku deployment------------------------------
 const __dirname = path.resolve();
 
 if (process.env.NODE_ENV === "production") {

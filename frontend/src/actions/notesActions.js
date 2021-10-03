@@ -21,13 +21,14 @@ export const listNotes = () => async (dispatch, getState) => {
       type: NOTES_LIST_REQUEST,
     });
 
+    //gets the userinfo from current state
     const {
       userLogin: { userInfo },
     } = getState();
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDVlZjc2NGU4M2NmMDZlODM0MTY3YyIsImlhdCI6MTYzMzIyNTMxOCwiZXhwIjoxNjM1ODE3MzE4fQ.xCX3haNhoGw6gc03dO7j8zCEBGoXfuYr0KxrLKMFSn8`,
       },
     };
 

@@ -1,15 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Accordion,
-  Badge,
-  Button,
-  Card,
-  Container,
-  Row,
-  Form,
-  FormControl,
-  Nav,
-} from "react-bootstrap";
+import { Accordion, Badge, Button, Card } from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -19,16 +9,12 @@ import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
 
-function MyNotes({ history, search }) {
+function SearchArticle({ history, search }) {
   const dispatch = useDispatch();
 
   const noteList = useSelector((state) => state.noteList);
   const { loading, error, notes } = noteList;
-
-  // const filteredNotes = notes.filter((note) =>
-  //   note.title.toLowerCase().includes(search.toLowerCase())
-  // );
-
+  
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -47,9 +33,6 @@ function MyNotes({ history, search }) {
 
   useEffect(() => {
     dispatch(listNotes());
-    if (!userInfo) {
-      history.push("/mynotes");
-    }
   }, [
     dispatch,
     history,
@@ -66,41 +49,9 @@ function MyNotes({ history, search }) {
     }
   };
 
-  //notes can only be seen if user is logged in
   return (
-    <div className="main">
-      <Container>
-        <Row>
-          <div className="intro-text">
-            <div>
-              <h1 className="title">Welcome to SERPER</h1>
-            </div>
-            {/*add a search to landing page here under login buttons */}
-            <Nav className="m-auto">
-              <Form className="searchbar">
-                <FormControl type="text" placeholder="Search" />
-              </Form>
-            </Nav>
-            <div className="buttonContainer">
-              <Link to="/login">
-                <Button size="lg" className="landingbutton">
-                  Login
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button
-                  variant="outline-primary"
-                  size="lg"
-                  className="landingbutton"
-                >
-                  Signup
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </Row>
-      </Container>
-
+    <div>
+      <h1>Search for Articles</h1>
       <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
         {console.log(notes)}
         <Link to="/createnote">
@@ -181,4 +132,4 @@ function MyNotes({ history, search }) {
   );
 }
 
-export default MyNotes;
+export default SearchArticle;

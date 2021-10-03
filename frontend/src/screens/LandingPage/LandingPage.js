@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { Button, Container, Row } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Row,
+  Form,
+  FormControl,
+  Nav,
+} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./LandingStyles.css";
@@ -22,6 +29,12 @@ function LandingPage({ history }) {
             <div>
               <h1 className="title">Welcome to SERPER</h1>
             </div>
+            {/*add a search to landing page here under login buttons */}
+            <Nav className="m-auto">
+              <Form className="searchbar">
+                <FormControl type="text" placeholder="Search" />
+              </Form>
+            </Nav>
             <div className="buttonContainer">
               <Link to="/login">
                 <Button size="lg" className="landingbutton">

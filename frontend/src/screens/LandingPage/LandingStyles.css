@@ -9,6 +9,11 @@
   width: 100%;
   text-align: center;
 }
+.searchbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
 .main {
   min-height: 93vh;
   display: flex;

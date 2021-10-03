@@ -31,7 +31,7 @@ function Header({ setSearch }) {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="m-auto">
-            {userInfo && (
+            {
               <Form inline>
                 <FormControl
                   type="text"
@@ -40,7 +40,7 @@ function Header({ setSearch }) {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </Form>
-            )}
+            }
           </Nav>
           <Nav>
             {userInfo ? (
