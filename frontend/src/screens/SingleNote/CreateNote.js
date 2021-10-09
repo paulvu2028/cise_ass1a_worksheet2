@@ -9,8 +9,10 @@ import ReactMarkdown from "react-markdown";
 
 function CreateNote({ history }) {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState("");
+  const [authors, setAuthors] = useState("");
+  const [source, setSource] = useState("");
+  const [pubYear, setPubYear] = useState("");
+  const [doi, setDoi] = useState("");
 
   const dispatch = useDispatch();
 
@@ -21,14 +23,16 @@ function CreateNote({ history }) {
 
   const resetHandler = () => {
     setTitle("");
-    setCategory("");
-    setContent("");
+    setAuthors("");
+    setSource("");
+    setPubYear("");
+    setDoi("");
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createNoteAction(title, content, category));
-    if (!title || !content || !category) return;
+    dispatch(createNoteAction(title, authors, source, pubYear, doi));
+    if (!title || !authors || !source || !pubYear || !doi) return;
 
     resetHandler();
     history.push("/mynotes");
@@ -53,34 +57,46 @@ function CreateNote({ history }) {
               />
             </Form.Group>
 
-            <Form.Group controlId="content">
-              <Form.Label>Content</Form.Label>
+            <Form.Group controlId="authors">
+              <Form.Label>Authors</Form.Label>
               <Form.Control
                 as="textarea"
-                value={content}
-                placeholder="Enter the content"
-                rows={4}
-                onChange={(e) => setContent(e.target.value)}
+                value={authors}
+                placeholder="Enter the Authors"
+                onChange={(e) => setAuthors(e.target.value)}
               />
             </Form.Group>
-            {content && (
-              <Card>
-                <Card.Header>Note Preview</Card.Header>
-                <Card.Body>
-                  <ReactMarkdown>{content}</ReactMarkdown>
-                </Card.Body>
-              </Card>
-            )}
 
-            <Form.Group controlId="content">
-              <Form.Label>Category</Form.Label>
+            <Form.Group controlId="source">
+              <Form.Label>Source</Form.Label>
               <Form.Control
-                type="content"
-                value={category}
-                placeholder="Enter the Category"
-                onChange={(e) => setCategory(e.target.value)}
+                type="source"
+                value={source}
+                placeholder="Enter the Source"
+                onChange={(e) => setSource(e.target.value)}
               />
             </Form.Group>
+
+            <Form.Group controlId="pubYear">
+              <Form.Label>PubYear</Form.Label>
+              <Form.Control
+                type="pubYear"
+                value={pubYear}
+                placeholder="Enter the PubYear"
+                onChange={(e) => setPubYear(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="doi">
+              <Form.Label>Doi</Form.Label>
+              <Form.Control
+                type="doi"
+                value={doi}
+                placeholder="Enter the Doi"
+                onChange={(e) => setDoi(e.target.value)}
+              />
+            </Form.Group>
+
             {loading && <Loading size={50} />}
             <Button type="submit" variant="primary">
               Submit

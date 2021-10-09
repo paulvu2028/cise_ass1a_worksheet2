@@ -35,14 +35,21 @@ const getNoteById = asyncHandler(async (req, res) => {
 //@route           GET /api/notes/create
 //@access          Private
 const CreateNote = asyncHandler(async (req, res) => {
-  const { title, content, category } = req.body;
+  const { title, authors, source, pubYear, doi } = req.body;
 
-  if (!title || !content || !category) {
+  if (!title || !authors || !source || !pubYear || !doi) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const note = new Note({ user: req.user._id, title, content, category });
+    const note = new Note({
+      user: req.user._id,
+      title,
+      authors,
+      source,
+      pubYear,
+      doi,
+    });
 
     const createdNote = await note.save();
 
@@ -74,7 +81,7 @@ const DeleteNote = asyncHandler(async (req, res) => {
 // @route   PUT /api/notes/:id
 // @access  Private
 const UpdateNote = asyncHandler(async (req, res) => {
-  const { title, content, category } = req.body;
+  const { title, authors, source, pubYear, doi } = req.body;
 
   const note = await Note.findById(req.params.id);
 
@@ -85,8 +92,10 @@ const UpdateNote = asyncHandler(async (req, res) => {
 
   if (note) {
     note.title = title;
-    note.content = content;
-    note.category = category;
+    note.authors = authors;
+    note.source = source;
+    note.pubYear = pubYear;
+    note.doi = doi;
 
     const updatedNote = await note.save();
     res.json(updatedNote);

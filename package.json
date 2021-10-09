@@ -23,6 +23,7 @@
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.15",
+    "react-bootstrap-table-next": "^4.0.3",
     "react-scripts": "^4.0.3",
     "redux-devtools-extension": "^2.13.9"
   },

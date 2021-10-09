@@ -10,8 +10,10 @@ import ReactMarkdown from "react-markdown";
 
 function SingleNote({ match, history }) {
   const [title, setTitle] = useState();
-  const [content, setContent] = useState();
-  const [category, setCategory] = useState();
+  const [authors, setAuthors] = useState();
+  const [source, setSource] = useState();
+  const [pubYear, setPubYear] = useState();
+  const [doi, setDoi] = useState();
   const [date, setDate] = useState("");
 
   const dispatch = useDispatch();
@@ -34,8 +36,10 @@ function SingleNote({ match, history }) {
       const { data } = await axios.get(`/api/notes/${match.params.id}`);
 
       setTitle(data.title);
-      setContent(data.content);
-      setCategory(data.category);
+      setAuthors(data.authors);
+      setSource(data.source);
+      setPubYear(data.pubYear);
+      setDoi(data.doi);
       setDate(data.updatedAt);
     };
 
@@ -44,14 +48,18 @@ function SingleNote({ match, history }) {
 
   const resetHandler = () => {
     setTitle("");
-    setCategory("");
-    setContent("");
+    setAuthors("");
+    setSource("");
+    setPubYear("");
+    setDoi("");
   };
 
   const updateHandler = (e) => {
     e.preventDefault();
-    dispatch(updateNoteAction(match.params.id, title, content, category));
-    if (!title || !content || !category) return;
+    dispatch(
+      updateNoteAction(match.params.id, title, authors, source, pubYear, doi)
+    );
+    if (!title || !authors || !source || !pubYear || !doi) return;
 
     resetHandler();
     history.push("/mynotes");
@@ -78,34 +86,46 @@ function SingleNote({ match, history }) {
               />
             </Form.Group>
 
-            <Form.Group controlId="content">
-              <Form.Label>Content</Form.Label>
+            <Form.Group controlId="authors">
+              <Form.Label>authors</Form.Label>
               <Form.Control
                 as="textarea"
-                placeholder="Enter the content"
+                placeholder="Enter the authors"
                 rows={4}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+                value={authors}
+                onChange={(e) => setAuthors(e.target.value)}
               />
             </Form.Group>
-            {content && (
-              <Card>
-                <Card.Header>Note Preview</Card.Header>
-                <Card.Body>
-                  <ReactMarkdown>{content}</ReactMarkdown>
-                </Card.Body>
-              </Card>
-            )}
 
-            <Form.Group controlId="content">
-              <Form.Label>Category</Form.Label>
+            <Form.Group controlId="source">
+              <Form.Label>Source</Form.Label>
               <Form.Control
-                type="content"
-                placeholder="Enter the Category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                type="source"
+                placeholder="Enter the Source"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
               />
             </Form.Group>
+            <Form.Group controlId="pubYear">
+              <Form.Label>Source</Form.Label>
+              <Form.Control
+                type="pubYear"
+                placeholder="Enter the PubYear"
+                value={pubYear}
+                onChange={(e) => setPubYear(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="doi">
+              <Form.Label>Source</Form.Label>
+              <Form.Control
+                type="doi"
+                placeholder="Enter the Doi"
+                value={doi}
+                onChange={(e) => setDoi(e.target.value)}
+              />
+            </Form.Group>
+
             {loading && <Loading size={50} />}
             <Button variant="primary" type="submit">
               Update Note

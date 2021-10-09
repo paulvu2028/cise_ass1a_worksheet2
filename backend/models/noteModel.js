@@ -6,11 +6,19 @@ const noteSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    content: {
+    authors: {
       type: String,
       required: true,
     },
-    category: {
+    source: {
+      type: String,
+      required: true,
+    },
+    pubYear: {
+      type: String,
+      required: true,
+    },
+    doi: {
       type: String,
       required: true,
     },

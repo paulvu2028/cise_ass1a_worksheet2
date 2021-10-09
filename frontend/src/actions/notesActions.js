@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 
 //gets the note list from mongodb
+//async is used to call from databases
 export const listNotes = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -28,10 +29,11 @@ export const listNotes = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDVlZjc2NGU4M2NmMDZlODM0MTY3YyIsImlhdCI6MTYzMzIyNTMxOCwiZXhwIjoxNjM1ODE3MzE4fQ.xCX3haNhoGw6gc03dO7j8zCEBGoXfuYr0KxrLKMFSn8`,
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
+    //axios commmand which actully gets the data from mongo
     const { data } = await axios.get(`/api/notes`, config);
 
     dispatch({
@@ -52,7 +54,7 @@ export const listNotes = () => async (dispatch, getState) => {
 
 //called for creating a note
 export const createNoteAction =
-  (title, content, category) => async (dispatch, getState) => {
+  (title, authors, source, pubYear, doi) => async (dispatch, getState) => {
     try {
       dispatch({
         type: NOTES_CREATE_REQUEST,
@@ -71,7 +73,7 @@ export const createNoteAction =
 
       const { data } = await axios.post(
         `/api/notes/create`,
-        { title, content, category },
+        { title, authors, source, pubYear, doi },
         config
       );
 
@@ -128,7 +130,7 @@ export const deleteNoteAction = (id) => async (dispatch, getState) => {
 
 //update note action
 export const updateNoteAction =
-  (id, title, content, category) => async (dispatch, getState) => {
+  (id, title, authors, source, pubYear, doi) => async (dispatch, getState) => {
     try {
       dispatch({
         type: NOTES_UPDATE_REQUEST,
@@ -147,7 +149,7 @@ export const updateNoteAction =
 
       const { data } = await axios.put(
         `/api/notes/${id}`,
-        { title, content, category },
+        { title, authors, source, pubYear, doi },
         config
       );
 

@@ -61,7 +61,7 @@ function Header({ setSearch }) {
                     My Profile
                   </NavDropdown.Item>
 
-                  <NavDropdown.Divider />
+                  <NavDropdown.Divider/>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>

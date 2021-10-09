@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   Badge,
@@ -9,6 +9,7 @@ import {
   Form,
   FormControl,
   Nav,
+  table,
 } from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
@@ -18,6 +19,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
+// import SearchBar from "../../components/SearchBar";
+import Header from "../../components/Header";
+import "./MyNotes.css";
+import BootstrapTable from "react-bootstrap-table-next";
+
+import "./sortfunc.js"
+
+
 
 function MyNotes({ history, search }) {
   const dispatch = useDispatch();
@@ -45,6 +54,7 @@ function MyNotes({ history, search }) {
   const noteUpdate = useSelector((state) => state.noteUpdate);
   const { success: successUpdate } = noteUpdate;
 
+  //
   useEffect(() => {
     dispatch(listNotes());
     if (!userInfo) {
@@ -65,120 +75,125 @@ function MyNotes({ history, search }) {
       dispatch(deleteNoteAction(id));
     }
   };
-
   //notes can only be seen if user is logged in
   return (
-    <div className="main">
-      <Container>
-        <Row>
-          <div className="intro-text">
-            <div>
-              <h1 className="title">Welcome to SERPER</h1>
-            </div>
-            {/*add a search to landing page here under login buttons */}
-            <Nav className="m-auto">
-              <Form className="searchbar">
-                <FormControl type="text" placeholder="Search" />
-              </Form>
-            </Nav>
-            <div className="buttonContainer">
-              <Link to="/login">
-                <Button size="lg" className="landingbutton">
-                  Login
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button
-                  variant="outline-primary"
-                  size="lg"
-                  className="landingbutton"
-                >
-                  Signup
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </Row>
-      </Container>
+    
+    <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
+      <Link to="/createnote">
+        <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
+          Submit a new article
+        </Button>
+      </Link>
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {errorDelete && (
+        <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+      )}
+      {loading && <Loading />}
+      {loadingDelete && <Loading />}
 
-      <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
-        {console.log(notes)}
-        <Link to="/createnote">
-          <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
-            Submit a new article
-          </Button>
-        </Link>
-        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-        {errorDelete && (
-          <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
-        )}
-        {loading && <Loading />}
-        {loadingDelete && <Loading />}
+      {/* *Table html testing
+      <table
+        class="container"
+        id="myTable"
+        class="table table-striped table-bordered table-sm"
+        cellspacing="0"
+        width="100%"
+      >
+        <thead>
+          <tr>
+            <th class="th-sm">Title</th>
+            <th class="th-sm">Content</th>
+            <th class="th-sm">Category</th>
+          </tr>
+        </thead>
         {notes &&
           notes
-            .filter((filteredNote) =>
-              filteredNote.title.toLowerCase().includes(search.toLowerCase())
+            .filter((sortByTitle) =>
+              //add new logic here which sorts the notes by title
+              sortByTitle.title.useState.
             )
             .reverse()
             .map((note) => (
-              <Accordion>
-                <Card style={{ margin: 10 }} key={note._id}>
-                  <Card.Header style={{ display: "flex" }}>
-                    <span
-                      // onClick={() => ModelShow(note)}
-                      style={{
-                        color: "white",
-                        textDecoration: "none",
-                        flex: 1,
-                        cursor: "pointer",
-                        alignSelf: "center",
-                        fontSize: 18,
-                      }}
-                    >
-                      <Accordion.Toggle
-                        as={Card.Text}
-                        variant="link"
-                        eventKey="0"
-                      >
-                        {note.title}
-                      </Accordion.Toggle>
-                    </span>
-
-                    <div>
-                      <Button href={`/note/${note._id}`}>Edit</Button>
-                      <Button
-                        variant="danger"
-                        className="mx-2"
-                        onClick={() => deleteHandler(note._id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </Card.Header>
-                  <Accordion.Collapse eventKey="0">
-                    <Card.Body>
-                      <h4>
-                        <Badge variant="success">
-                          Category - {note.category}
-                        </Badge>
-                      </h4>
-                      <blockquote className="blockquote mb-0">
-                        <ReactMarkdown>{note.content}</ReactMarkdown>
-                        <footer className="blockquote-footer">
-                          Created on{" "}
-                          <cite title="Source Title">
-                            {note.createdAt.substring(0, 10)}
-                          </cite>
-                        </footer>
-                      </blockquote>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-              </Accordion>
+              <tbody>
+                <tr>
+                  <td>{note.title}</td>
+                  <td>{note.content}</td>
+                  <td>{note.category}</td>
+                </tr>
+              </tbody>
             ))}
-      </MainScreen>
-    </div>
+      </table> */}
+
+      {/**Table html testing */}
+      <table class="table" id = "myTable">
+        <thead>
+          <tr>
+            <th onClick = {() => sortTable(notes, 0)} class="th-sm">Title</th>
+            <th onClick = {() => sortTable(notes, 1)} class="th-sm">Authors</th>
+            <th onClick = {() => sortTable(notes, 2)} class="th-sm">Source</th>
+            <th onClick = {() => sortTable(notes, 3)} class="th-sm">PubYear</th>
+            <th onClick = {() => sortTable(notes, 4)} class="th-sm">Doi</th>
+          </tr>
+        </thead>
+        {notes &&
+        notes
+        .map((note) => (
+          <tbody >
+            <tr>
+              <td>{note.title}</td>
+              <td>{note.authors}</td>
+              <td>{note.source}</td>
+              <td>{note.pubYear}</td>
+              <td>{note.doi}</td>
+            </tr>
+          </tbody>))}
+      </table>
+      <script src = "sortfunc.js"></script>
+    </MainScreen>
   );
+  function sortTable(array, prop) {
+    console.log(notes)
+    array.sort(function(a,b){
+      switch (prop)
+      {
+        case 0:
+          var nameA=a.title.toLowerCase(), nameB=b.title.toLowerCase()
+          break;
+        case 1:
+          var nameA=a.authors.toLowerCase(), nameB=b.authors.toLowerCase()
+          break;
+        case 2:
+          var nameA=a.source.toLowerCase(), nameB=b.source.toLowerCase()
+          break;
+        case 3:
+          var nameA=a.pubYear.toLowerCase(), nameB=b.pubYear.toLowerCase()
+          break;
+        case 4:
+          var nameA=a.doi.toLowerCase(), nameB=b.doi.toLowerCase()
+          break;
+      }
+      if (nameA < nameB) //sort string ascending
+        return -1 
+      if (nameA > nameB)
+          return 1
+      return 0
+    })
+    {deployTable(array)}
+  }
+  function deployTable(array)
+  {
+    for (let i = 0; i < notes.length; i++)
+    {
+      let temp = array[i]
+      document.getElementById("myTable").rows[i+1].innerHTML =    "<td>" + temp.title + "</td>" 
+                                                                + "<td>" + temp.authors + "</td>" 
+                                                                + "<td>" + temp.source + "</td>" 
+                                                                + "<td>" + temp.pubYear + "</td>" 
+                                                                + "<td>" + temp.doi + "</td>"
+    }
+    console.log(notes)
+  }
 }
+
 
 export default MyNotes;
