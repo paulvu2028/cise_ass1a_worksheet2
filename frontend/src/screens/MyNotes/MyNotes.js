@@ -91,39 +91,6 @@ function MyNotes({ history, search }) {
       {loading && <Loading />}
       {loadingDelete && <Loading />}
 
-      {/* *Table html testing
-      <table
-        class="container"
-        id="myTable"
-        class="table table-striped table-bordered table-sm"
-        cellspacing="0"
-        width="100%"
-      >
-        <thead>
-          <tr>
-            <th class="th-sm">Title</th>
-            <th class="th-sm">Content</th>
-            <th class="th-sm">Category</th>
-          </tr>
-        </thead>
-        {notes &&
-          notes
-            .filter((sortByTitle) =>
-              //add new logic here which sorts the notes by title
-              sortByTitle.title.useState.
-            )
-            .reverse()
-            .map((note) => (
-              <tbody>
-                <tr>
-                  <td>{note.title}</td>
-                  <td>{note.content}</td>
-                  <td>{note.category}</td>
-                </tr>
-              </tbody>
-            ))}
-      </table> */}
-
       {/**Table html testing */}
       <table class="table" id = "myTable">
         <thead>
@@ -137,6 +104,10 @@ function MyNotes({ history, search }) {
         </thead>
         {notes &&
         notes
+            .filter((filteredNote) =>
+            filteredNote.title.toLowerCase().includes(search.toLowerCase())
+          )
+          .reverse()
         .map((note) => (
           <tbody >
             <tr>
