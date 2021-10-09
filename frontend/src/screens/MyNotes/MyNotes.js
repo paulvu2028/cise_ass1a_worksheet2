@@ -78,7 +78,7 @@ function MyNotes({ history, search }) {
   //notes can only be seen if user is logged in
   return (
     
-    <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
+    <MainScreen title={`Welcome to SERPER`}>
       <Link to="/createnote">
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
           Submit a new article
