@@ -214,7 +214,7 @@ function CreateNote({ history }) {
               Submit
             </Button>
             <Button className="mx-2" onClick={resetHandler} variant="danger">
-              Reset Feilds
+              Reset
             </Button>
           </Form>
         </Card.Body>
