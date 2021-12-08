@@ -29,7 +29,7 @@ export const listNotes = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNDVlZjc2NGU4M2NmMDZlODM0MTY3YyIsImlhdCI6MTYzMzczMTMxNiwiZXhwIjoxNjM2MzIzMzE2fQ.cFSl9PHl8Ja5Il3zQvNpZhzCot6W4AGgHrFHBNkR_kQ`,
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
